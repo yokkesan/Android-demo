@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Slider</string>
+    <string name="右へスライド" />
+    <string name="左へスライド" />
 </resources>
