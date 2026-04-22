@@ -18,11 +18,6 @@ class QuizController {
         Quiz("蜻蛉", "トンボ"),
         Quiz("蟷螂", "カマキリ"),
         Quiz("蚯蚓", "ミミズ"),
-        Quiz("木耳", "キクラゲ"),
-        Quiz("土竜", "モグラ"),
-        Quiz("山羊", "ヤギ"),
-        Quiz("鯱", "シャチ"),
-        Quiz("翻車魚", "マンボウ")
     )
 
     private var currentIndex = 0
@@ -59,5 +54,24 @@ class QuizController {
         } else {
             false
         }
+    }
+
+    fun isLastQuestion(): Boolean {
+        return currentIndex == quizList.size - 1
+    }
+
+    private var score = 0
+
+    fun judge(input: String): String {
+        return if (checkAnswer(input)) {
+            score++
+            "○"
+        } else {
+            "×"
+        }
+    }
+
+    fun getScore(): Int {
+        return score
     }
 }

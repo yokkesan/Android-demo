@@ -3,7 +3,7 @@ package com.example.quiz
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-
+import android.content.Intent
 class MainActivity : AppCompatActivity() {
 
     private lateinit var controller: QuizController
@@ -35,8 +35,23 @@ class MainActivity : AppCompatActivity() {
 
         // 判定
         checkButton.setOnClickListener {
+
             val input = answerInput.text.toString()
-            resultText.text = controller.getResultText(input)
+
+            if (input.isBlank()) {
+                resultText.text = "入力してください"
+                return@setOnClickListener
+            }
+
+            // 判定
+            resultText.text = controller.judge(input)
+
+            // ★ 最終問題なら自動遷移
+            if (controller.isLastQuestion()) {
+                val intent = Intent(this, ResultActivity::class.java)
+                intent.putExtra("SCORE", controller.getScore())
+                startActivity(intent)
+            }
         }
 
         // 次へ
@@ -44,7 +59,9 @@ class MainActivity : AppCompatActivity() {
             if (controller.nextQuestion()) {
                 updateView()
             } else {
-                resultText.text = "終了"
+                val intent = Intent(this, ResultActivity::class.java)
+                intent.putExtra("SCORE", controller.getScore())
+                startActivity(intent)
             }
         }
     }
